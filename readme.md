@@ -22,9 +22,8 @@ git clone "项目地址"
 git branch -r # 查看远程分支
 git checkout -t origin/远程分支名 # 抓取远程分支并创建切换到本地同名分支
 ```
-
+* 如何创建一个远程仓库
 ```
-# 如何创建一个远程仓库
 git remote add origin "远程仓库地址"
 ```
 
