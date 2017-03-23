@@ -1,6 +1,6 @@
 # reactYet(react+mobx+sass+webpack)
  
-##代码协作说明
+## 代码协作说明
 
 ### 任务分支说明
 
