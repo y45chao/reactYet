@@ -52,16 +52,16 @@ git status 查询当前代码状体
 git add .
 git commit -m "解决完冲突提交"
 ```
-#提交到远程主分支
+* 提交到远程主分支
 ```
 git push origin master
 ```
-#远程分支
-*创建远程分支
+* 远程分支
+* 创建远程分支
 ```
 git remote add origin 分支名称
 ```
-*提交到远程分支
+* 提交到远程分支
 ```
 git push origin 分支名称
 ```
