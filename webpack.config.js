@@ -1,80 +1,41 @@
-const path = require('path');
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const PORT = 4040;
+var webpack = require('webpack');
+var path = require('path');
+
 module.exports = {
-    devServer: {
-        noInfo: true,
-        inline: true,
-        colors: true,
-        compress: true,
-        historyApiFallback: true,
-        port: PORT,
-        host: "0.0.0.0",
-        contentBase: '/',
-        open: 'http://127.0.0.1:' + PORT
-    },
+    devtool: 'inline-sourcemap',
+    cache: true,
+    context: path.resolve(__dirname, 'src'),
     entry: [
-        './src/index'
+      'webpack/hot/only-dev-server',
+      "./index"
     ],
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: "[name].js",
-        chunkFilename: "[name].[chunkhash:5].chunk.js",
+        path: path.join(__dirname, 'build/static'),
+        filename: 'bundle.js',
+        publicPath: '/static'
+    },
+    devServer: {
+        contentBase: path.join(__dirname, 'src'),
     },
     resolve: {
-        extensions: ['', '.jsx', '.js'],
+        extensions: ['.js', '.jsx']
     },
     module: {
         loaders: [
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                loaders: ['babel', 'eslint']
-            }
+            { 
+                test: /\.jsx?$/, 
+                exclude: /node_modules|build/,
+                loaders: 'react-hot-loader!babel-loader',
+            }, {
+                test: /\.scss$/,
+                loader: 'style-loader!css-loader!sass-loader'
+            }, {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader'
+            },
         ]
     },
-    eslint: {
-        configFile: './.eslintrc'
-    },
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
-        new HtmlWebpackPlugin({
-          filename: 'index.html',
-          template: 'index.html',
-          inject: true
-        }),
-    ],
-}
-if (process.env.NODE_ENV === 'production') {
-    module.exports.plugins = [
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        filename: 'vendor.bundle.js'
-      }),
-      new HtmlWebpackPlugin({
-        filename: 'index.html',
-        template: 'index.html',
-        inject: true,
-        minify: {
-          removeComments: true,
-          collapseWhitespace: true,
-          removeAttributeQuotes: true
-        }
-      }),
-      new webpack.DefinePlugin({
-          'process.env': {
-              NODE_ENV: '"production"'
-          }
-      }),
-      new webpack.optimize.UglifyJsPlugin({
-          compress: {
-              warnings: false
-          }
-      }),
-      new webpack.optimize.OccurenceOrderPlugin()
+      new webpack.NoErrorsPlugin()
     ]
-} else {
-    module.exports.devtool = '#source-map'
 }
